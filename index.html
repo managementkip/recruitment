@@ -624,7 +624,7 @@
     </div>
   </div>
 
-  <div id="detailed-score-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm hidden transition-opacity duration-300 opacity-0">
+  <div id="detailed-score-modal" class="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/50 backdrop-blur-sm hidden transition-opacity duration-300 opacity-0">
     <div class="bg-white border border-slate-200 p-6 shadow-2xl max-w-4xl w-full rounded relative m-4 max-h-[90vh] flex flex-col">
       <button onclick="toggleDetailedScoreModal()" class="absolute top-4 right-4 text-slate-400 hover:text-red-600 transition-colors cursor-pointer">
         <i class="fa-solid fa-xmark text-lg"></i>
@@ -1399,25 +1399,36 @@
 
     function viewDetailedScore(id) {
       const candidate = allScoresData.find(s => s.id === id);
-      if (!candidate) return;
+      if (!candidate) {
+        console.error("Candidate not found in local memory.");
+        return;
+      }
 
       document.getElementById('detailed-score-candidate').innerText = `ID: ${candidate.id} | Name: ${candidate.name} | Role: ${candidate.position}`;
       document.getElementById('detailed-score-total').innerText = `Total Score: ${candidate.score}`;
 
       const grid = document.getElementById('detailed-score-grid');
       
-      grid.innerHTML = candidate.answers.map((ans, i) => {
-        const isEmpty = !ans || ans.trim() === '';
-        const displayAns = isEmpty ? 'Ø' : ans; // Show Ø for skipped questions
-        const bgClass = isEmpty ? 'bg-red-50 text-red-400 border-red-200' : 'bg-slate-50 text-blue-700 border-slate-200';
+      // 🛡️ FAILSAFE: If the backend forgot to send the answers, don't crash. Give an empty array.
+      const answersArray = candidate.answers || [];
+      
+      if (answersArray.length === 0) {
+        // If answers are missing, show this warning instead of crashing
+        grid.innerHTML = `<div class="col-span-5 md:col-span-10 text-center p-8 text-slate-500 italic border border-dashed border-slate-300 bg-slate-50"><i class="fa-solid fa-triangle-exclamation text-red-500 text-2xl mb-2 block"></i>Detailed answers missing.<br>Please ensure you deployed Code.gs as a <b>New Version</b>.</div>`;
+      } else {
+        grid.innerHTML = answersArray.map((ans, i) => {
+          const isEmpty = !ans || ans.trim() === '';
+          const displayAns = isEmpty ? 'Ø' : ans; // Show Ø for skipped questions
+          const bgClass = isEmpty ? 'bg-red-50 text-red-400 border-red-200' : 'bg-slate-50 text-blue-700 border-slate-200';
 
-        return `
-          <div class="flex flex-col items-center justify-center p-2 border rounded-sm ${bgClass} shadow-sm">
-            <span class="text-[9px] uppercase font-bold text-slate-400 mb-1">Q${i + 1}</span>
-            <span class="font-black font-mono text-lg">${displayAns}</span>
-          </div>
-        `;
-      }).join('');
+          return `
+            <div class="flex flex-col items-center justify-center p-2 border rounded-sm ${bgClass} shadow-sm">
+              <span class="text-[9px] uppercase font-bold text-slate-400 mb-1">Q${i + 1}</span>
+              <span class="font-black font-mono text-lg">${displayAns}</span>
+            </div>
+          `;
+        }).join('');
+      }
 
       toggleDetailedScoreModal();
     }
