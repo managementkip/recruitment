@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    [v-cloak] { display: none; }
+    body { background-color: #f8fafc; color: #0f172a; }
+    input[type="file"]::file-selector-button { display: none; }
+    
+    /* Custom Scrollbar for the table */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  </style>
+</head>
+<body class="font-mono min-h-screen flex flex-col antialiased selection:bg-blue-500/30">
+
+  <div id="view-public" class="flex flex-col min-h-screen w-full transition-opacity duration-300">
+    
+    <nav class="p-4 border-b border-red-200 bg-white flex justify-between items-center shadow-[0_4px_15px_rgba(239,68,68,0.05)] relative z-40">
+      <h1 class="font-black tracking-tighter uppercase italic">
+        <span class="text-red-600">Kampung</span>
+        <span class="text-slate-900 mx-1">Inggris</span>
+        <span class="text-red-600">Pontianak</span>
+      </h1>
+      
+      <div class="flex gap-4">
+        <button onclick="toggleCandidateLogin()" class="text-[10px] uppercase font-bold tracking-widest text-white bg-blue-600 px-4 py-2 rounded-sm hover:bg-blue-700 transition-colors shadow-sm cursor-pointer">
+          <i class="fa-solid fa-file-signature mr-2"></i>Candidate Portal
+        </button>
+        <button onclick="toggleAuthModal()" class="text-[10px] uppercase font-bold tracking-widest text-slate-500 hover:text-red-600 transition-colors flex items-center gap-2 border border-slate-200 px-3 py-1.5 rounded-sm hover:border-red-200 hover:bg-red-50 cursor-pointer">
+          <i class="fa-solid fa-lock"></i>
+          <span class="hidden sm:inline">Admin Sign In</span>
+        </button>
+      </div>
+    </nav>
+
+    <main id="view-application" class="p-6 flex-grow flex flex-col items-center">
+      <div class="max-w-2xl w-full gap-8 flex flex-col">
+        <header class="mb-4 text-center">
+          <h2 class="font-black tracking-tighter uppercase italic text-3xl text-blue-600 drop-shadow-sm">Join the Collective</h2>
+          <p class="text-[10px] uppercase font-bold tracking-widest text-slate-500 mt-2">We’re always excited to connect with talented, motivated individuals who are eager to grow and make a meaningful impact.</p>
+        </header>
+
+        <form id="recruitment-form" onsubmit="submitApplication(event)" class="flex flex-col gap-8">
+          
+          <section class="border border-slate-200 bg-white p-6 rounded relative shadow-sm">
+            <div class="absolute -top-3 left-4 bg-slate-100 px-2 text-[10px] uppercase font-bold tracking-widest text-blue-600 rounded">>> 01 Identity</div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+              <div class="col-span-1 md:col-span-2">
+                <label class="block text-[10px] uppercase font-bold tracking-widest text-slate-500 mb-1">Full Name</label>
+                <input type="text" id="app-name" required class="w-full bg-slate-50 border border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-slate-900 px-3 py-2 outline-none transition-all rounded-sm">
+              </div>
+              <div class="col-span-1 md:col-span-2">
+                <label class="block text-[10px] uppercase font-bold tracking-widest text-slate-500 mb-1">Residential Address</label>
+                <textarea id="app-address" required rows="2" class="w-full bg-slate-50 border border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-slate-900 px-3 py-2 outline-none transition-all resize-none rounded-sm"></textarea>
+              </div>
+              <div>
+                <label class="block text-[10px] uppercase font-bold tracking-widest text-slate-500 mb-1">Email Address</label>
+                <input type="email" id="app-email" required class="w-full bg-slate-50 border border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-slate-900 px-3 py-2 outline-none transition-all rounded-sm">
+              </div>
+              <div>
+                <label class="block text-[10px] uppercase font-bold tracking-widest text-slate-500 mb-1">WhatsApp Number</label>
+                <input type="tel" id="app-wa" required class="w-full bg-slate-50 border border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-slate-900 px-3 py-2 outline-none transition-all rounded-sm">
+              </div>
+            </div>
+          </section>
+
+          <section class="border border-slate-200 bg-white p-6 rounded relative shadow-sm">
+            <div class="absolute -top-3 left-4 bg-slate-100 px-2 text-[10px] uppercase font-bold tracking-widest text-blue-600 rounded">>> 02 Ambition</div>
+            <label class="block text-[10px] uppercase font-bold tracking-widest text-slate-500 mb-3 mt-2">Position Applied For</label>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <label class="flex items-center gap-3 p-3 border border-slate-200 bg-slate-50 cursor-pointer hover:border-blue-500 transition-colors group rounded-sm">
+                <input type="radio" name="position" value="English Trainer" required class="accent-blue-600">
+                <span class="text-sm text-slate-700 group-hover:text-blue-700">English Trainer</span>
+              </label>
+              <label class="flex items-center gap-3 p-3 border border-slate-200 bg-slate-50 cursor-pointer hover:border-blue-500 transition-colors group rounded-sm">
+                <input type="radio" name="position" value="Admin" class="accent-blue-600">
+                <span class="text-sm text-slate-700 group-hover:text-blue-700">Admin</span>
+              </label>
+              <label class="flex items-center gap-3 p-3 border border-slate-200 bg-slate-50 cursor-pointer hover:border-blue-500 transition-colors group rounded-sm">
+                <input type="radio" name="position" value="Person In Charge" class="accent-blue-600">
+                <span class="text-sm text-slate-700 group-hover:text-blue-700">Person In Charge</span>
+              </label>
+              <label class="flex items-center gap-3 p-3 border border-slate-200 bg-slate-50 cursor-pointer hover:border-blue-500 transition-colors group rounded-sm">
+                <input type="radio" name="position" value="Social Media" class="accent-blue-600">
+                <span class="text-sm text-slate-700 group-hover:text-blue-700">Social Media</span>
+              </label>
+            </div>
+          </section>
+
+          <section class="border border-slate-200 bg-white p-6 rounded relative shadow-sm">
+            <div class="absolute -top-3 left-4 bg-slate-100 px-2 text-[10px] uppercase font-bold tracking-widest text-blue-600 rounded">>> 03 Evidence</div>
+            <div class="mt-2 flex flex-col gap-4">
+              <div class="relative border-2 border-dashed border-slate-300 hover:border-blue-500 bg-slate-50 p-8 flex flex-col items-center justify-center text-center transition-colors cursor-pointer group rounded-sm">
+                <i class="fa-solid fa-cloud-arrow-up text-2xl text-slate-400 group-hover:text-blue-500 mb-2 transition-colors"></i>
+                <span class="text-sm text-slate-600 group-hover:text-blue-700">Upload your CV</span>
+                <span class="text-[10px] text-slate-500 mt-1">PDF up to 10MB</span>
+                <input type="file" id="app-cv" accept=".pdf" required class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+                <div id="cv-filename" class="text-[10px] text-blue-600 mt-2 font-bold tracking-widest hidden"></div>
+              </div>
+
+              <div>
+                <label class="block text-[10px] uppercase font-bold tracking-widest text-slate-500 mb-1">
+                  Portfolio or LinkedIn URL <span class="text-slate-400 normal-case tracking-normal">(Optional)</span>
+                </label>
+                <div class="flex rounded-sm overflow-hidden">
+                  <span class="bg-slate-100 border border-r-0 border-slate-300 px-3 py-2 text-slate-500 flex items-center"><i class="fa-solid fa-link"></i></span>
+                  <input type="url" id="app-link" placeholder="https://" class="w-full bg-slate-50 border border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-slate-900 px-3 py-2 outline-none transition-all">
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <button type="submit" id="btn-submit" class="w-full bg-blue-600 text-white py-4 rounded shadow-md hover:bg-blue-700 hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-terminal"></i>
+            <span class="text-[12px] uppercase font-black tracking-widest">Submit Application</span>
+          </button>
+        </form>
+      </div>
+    </main>
+
+    <main id="view-candidate-hub" class="p-6 flex-grow flex flex-col items-center hidden">
+      <div class="max-w-4xl w-full gap-6 flex flex-col">
+        <header class="mb-4 text-center border-b border-slate-200 pb-6">
+          <h2 class="font-black tracking-tighter uppercase italic text-3xl text-blue-600 drop-shadow-sm">Candidate Operations</h2>
+          <p class="text-[10px] uppercase font-bold tracking-widest text-slate-500 mt-2">Welcome, <span id="hub-candidate-name" class="text-slate-800"></span></p>
+          <div class="inline-block mt-4 bg-slate-100 border border-slate-200 text-slate-600 px-4 py-2 rounded-sm text-xs font-bold tracking-widest uppercase">
+            ID: <span id="hub-candidate-id" class="text-blue-600"></span>
+          </div>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div id="card-assessment" class="bg-white border-2 border-slate-200 p-6 rounded shadow-sm flex flex-col items-center text-center transition-all">
+            <div class="w-16 h-16 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-2xl mb-4 border border-blue-100">
+              <i class="fa-solid fa-brain"></i>
+            </div>
+            <h3 class="font-black tracking-tight text-slate-800 mb-2">Step 01: Assessment</h3>
+            <p class="text-[10px] uppercase font-bold tracking-widest text-slate-500 mb-6 flex-grow">50-Question Cognitive Matrix</p>
+            <button onclick="launchAssessmentFromHub()" id="btn-hub-test" class="w-full bg-blue-600 text-white py-3 rounded shadow-md hover:bg-blue-700 transition-all font-black text-[10px] uppercase tracking-widest disabled:opacity-50 disabled:cursor-not-allowed">
+              Take the Test
+            </button>
+            <p id="status-hub-test" class="text-[10px] text-green-600 font-bold mt-3 hidden"><i class="fa-solid fa-check-circle mr-1"></i> Completed</p>
+          </div>
+
+          <div id="card-contract" class="bg-white border-2 border-slate-200 p-6 rounded shadow-sm flex flex-col items-center text-center transition-all opacity-50 grayscale">
+            <div class="w-16 h-16 rounded-full bg-red-50 text-red-600 flex items-center justify-center text-2xl mb-4 border border-red-100">
+              <i class="fa-solid fa-file-signature"></i>
+            </div>
+            <h3 class="font-black tracking-tight text-slate-800 mb-2">Step 02: Trial Bond</h3>
+            <p class="text-[10px] uppercase font-bold tracking-widest text-slate-500 mb-6 flex-grow">Professional Commitment Agreement</p>
+            <button onclick="launchContractFromHub()" id="btn-hub-contract" class="w-full bg-red-600 text-white py-3 rounded shadow-md hover:bg-red-700 transition-all font-black text-[10px] uppercase tracking-widest disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+              Sign Contract
+            </button>
+            <p id="status-hub-contract" class="text-[10px] text-green-600 font-bold mt-3 hidden"><i class="fa-solid fa-check-circle mr-1"></i> Signed & Locked</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <main id="view-agreement" class="p-6 flex-grow flex flex-col items-center hidden">
+      <div class="max-w-3xl w-full gap-6 flex flex-col">
+        <header class="mb-4 text-center border-b border-slate-200 pb-6">
+          <h2 class="font-black tracking-tighter uppercase italic text-3xl text-red-600 drop-shadow-sm">Trial Phase Commitment</h2>
+          <p class="text-[10px] uppercase font-bold tracking-widest text-slate-500 mt-2">Protocol Authorization Verified</p>
+          <div class="inline-block mt-4 bg-red-50 border border-red-200 text-red-800 px-4 py-2 rounded-sm text-xs font-bold tracking-widest uppercase">
+            Candidate ID: <span id="agreement-display-token" class="text-red-600">PENDING</span>
+          </div>
+        </header>
+
+        <div class="bg-white border border-slate-200 p-8 rounded shadow-sm">
+          <h3 class="text-lg font-black tracking-tight text-slate-800 mb-4"><i class="fa-solid fa-file-contract text-red-600 mr-2"></i>Professional Training Bond</h3>
+          
+          <div id="agreement-text-container" class="bg-slate-50 p-6 border border-slate-200 text-sm text-slate-700 space-y-4 mb-6 h-64 overflow-y-auto scrollbar-thin">
+            </div>
+
+          <form onsubmit="submitDigitalSignature(event)" class="flex flex-col gap-4">
+            <label class="flex items-start gap-3 p-4 border border-slate-200 bg-slate-50 cursor-pointer hover:border-red-500 transition-colors group rounded-sm">
+              <input type="checkbox" required class="accent-red-600 mt-1 w-4 h-4">
+              <span class="text-sm text-slate-700">I have read, understood, and accept the terms of the Trial Phase Commitment and the resource protection clause.</span>
+            </label>
+
+            <div>
+              <label class="block text-[10px] uppercase font-bold tracking-widest text-slate-500 mb-1">Digital Signature (Type Full Name)</label>
+              <input type="text" id="digital-signature" required class="w-full bg-slate-50 border border-slate-300 focus:border-red-500 focus:ring-1 focus:ring-red-500 text-slate-900 px-3 py-3 outline-none transition-all rounded-sm font-bold">
+            </div>
+
+            <button type="submit" id="btn-sign-agreement" class="w-full bg-red-600 text-white py-4 mt-2 rounded shadow-md hover:bg-red-700 hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer">
+              <i class="fa-solid fa-pen-nib"></i>
+              <span class="text-[12px] uppercase font-black tracking-widest">Sign & Commit to Trial Phase</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <main id="view-assessment" class="p-6 flex-grow flex flex-col items-center hidden">
+      <div class="max-w-3xl w-full gap-6 flex flex-col">
+        <header class="mb-4 text-center border-b border-slate-200 pb-6">
+          <h2 class="font-black tracking-tighter uppercase italic text-3xl text-blue-600 drop-shadow-sm">Cognitive Assessment</h2>
+          <p class="text-[10px] uppercase font-bold tracking-widest text-slate-500 mt-2">Protocol Authorization Verified</p>
+          <div class="inline-block mt-4 bg-blue-50 border border-blue-200 text-blue-800 px-4 py-2 rounded-sm text-xs font-bold tracking-widest uppercase">
+            Candidate ID: <span id="display-token" class="text-blue-600">PENDING</span>
+          </div>
+        </header>
+
+        <div id="assessment-timer-bar" class="hidden w-full bg-slate-900 text-white p-4 rounded shadow-lg flex justify-between items-center mb-2 sticky top-4 z-40 border-b-4 border-blue-500">
+          <span class="text-[10px] uppercase font-bold tracking-widest text-slate-300"><i class="fa-solid fa-hourglass-half mr-2"></i>Time Remaining</span>
+          <span id="countdown-display" class="font-black font-mono text-2xl tracking-widest text-white drop-shadow-md">45:00</span>
+        </div>
+
+        <div id="assessment-intro" class="bg-white border border-slate-200 p-8 rounded shadow-sm text-center">
+          <i class="fa-solid fa-brain text-4xl text-slate-300 mb-4"></i>
+          <h3 class="text-lg font-black tracking-tight text-slate-800 mb-2">Ready to Begin?</h3>
+          <p class="text-sm text-slate-500 mb-6">This assessment consists of 50 multiple-choice questions tailored to your role. Once initialized, do not refresh your browser.</p>
+          <button onclick="startAssessmentTest()" id="btn-start-test" class="bg-blue-600 text-white px-8 py-3 rounded shadow-md hover:bg-blue-700 hover:shadow-lg transition-all flex items-center justify-center gap-2 mx-auto cursor-pointer">
+            <i class="fa-solid fa-play"></i>
+            <span class="text-[12px] uppercase font-black tracking-widest">Initialize Sequence</span>
+          </button>
+        </div>
+        
+        <div id="questions-render-area" class="hidden flex-col gap-6"></div>
+      </div>
+    </main>
+
+
+  </div> <div id="sys-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm hidden">
+    <div class="bg-white border border-slate-200 p-6 shadow-xl max-w-sm w-full rounded text-center">
+      <i id="modal-icon" class="fa-solid fa-circle-check text-4xl text-blue-500 mb-4 drop-shadow-sm"></i>
+      <h3 class="font-black tracking-tighter uppercase italic text-lg mb-2 text-slate-900">System Alert</h3>
+      <p id="modal-content" class="text-sm text-slate-600 mb-6"></p>
+      <button onclick="toggleModal()" class="w-full bg-slate-100 border border-slate-300 text-[10px] uppercase font-bold tracking-widest text-slate-700 py-2 hover:bg-slate-200 transition-colors rounded-sm cursor-pointer">Acknowledge</button>
+    </div>
+  </div>
+
+  <button onclick="toggleProcessModal()" class="fixed bottom-6 right-6 z-40 font-mono text-[10px] uppercase font-bold tracking-widest bg-white text-red-600 px-5 py-3 rounded border-t border-l border-red-100 border-r-2 border-b-4 border-red-200 active:translate-y-0.5 active:border-b-2 active:border-r-1 shadow-md hover:shadow-lg transition-all flex items-center gap-2 group cursor-pointer">
+    <i class="fa-solid fa-satellite-dish animate-pulse text-red-600"></i>
+    <span>Recruitment Process</span>
+  </button>
+
+  <div id="process-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm hidden transition-opacity duration-300 opacity-0" onclick="handleModalClick(event)">
+    <div class="bg-white border border-slate-200 p-8 shadow-2xl max-w-4xl w-full rounded relative max-h-[90vh] overflow-y-auto m-4 scrollbar-thin">
+      <button onclick="toggleProcessModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 transition-colors cursor-pointer">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <header class="mb-10 text-center">
+        <h2 class="font-black tracking-tighter uppercase italic text-2xl text-red-600 drop-shadow-sm">Recruitment Pipeline</h2>
+        <p class="text-[10px] uppercase font-bold tracking-widest text-slate-500 mt-2">Protocol: Operation Apex</p>
+      </header>
+
+      <div class="space-y-6 relative before:absolute before:inset-0 before:left-5 before:h-full before:w-0.5 before:bg-red-200">
+        <div class="relative flex items-center gap-4 group"><div class="flex items-center justify-center w-10 h-10 rounded-full border border-red-500 bg-white text-red-600 shadow-sm shrink-0 z-10"><i class="fa-solid fa-file-export text-xs"></i></div><div class="p-4 rounded border border-slate-200 bg-slate-50 flex-grow shadow-sm"><h4 class="font-black tracking-tighter uppercase italic text-red-600 text-sm">01. Submit Form</h4><p class="text-[10px] text-slate-500 mt-1">Data transmission & CV upload.</p></div></div>
+        <div class="relative flex items-center gap-4 group"><div class="flex items-center justify-center w-10 h-10 rounded-full border border-slate-300 bg-white text-slate-500 shrink-0 z-10"><i class="fa-solid fa-user-check text-xs"></i></div><div class="p-4 rounded border border-slate-200 bg-white flex-grow"><h4 class="font-black tracking-tighter uppercase italic text-slate-800 text-sm">02. HR Review</h4><p class="text-[10px] text-slate-500 mt-1">Initial protocol screening.</p></div></div>
+        <div class="relative flex items-center gap-4 group"><div class="flex items-center justify-center w-10 h-10 rounded-full border border-slate-300 bg-white text-slate-500 shrink-0 z-10"><i class="fa-solid fa-handshake text-xs"></i></div><div class="p-4 rounded border border-slate-200 bg-white flex-grow"><h4 class="font-black tracking-tighter uppercase italic text-slate-800 text-sm">03. Interview</h4><p class="text-[10px] text-slate-500 mt-1">Face-to-face communication link.</p></div></div>
+        <div class="relative flex items-center gap-4 group"><div class="flex items-center justify-center w-10 h-10 rounded-full border border-slate-300 bg-white text-slate-500 shrink-0 z-10"><i class="fa-solid fa-brain text-xs"></i></div><div class="p-4 rounded border border-slate-200 bg-white flex-grow"><h4 class="font-black tracking-tighter uppercase italic text-slate-800 text-sm">04. Cognitive Assessment</h4><p class="text-[10px] text-slate-500 mt-1">Aptitude & logic evaluation.</p></div></div>
+        <div class="relative flex items-center gap-4 group"><div class="flex items-center justify-center w-10 h-10 rounded-full border border-slate-300 bg-white text-slate-500 shrink-0 z-10"><i class="fa-solid fa-vial text-xs"></i></div><div class="p-4 rounded border border-slate-200 bg-white flex-grow"><h4 class="font-black tracking-tighter uppercase italic text-slate-800 text-sm">05. Trial Phase</h4><p class="text-[10px] text-slate-500 mt-1">Live environment simulator.</p></div></div>
+        <div class="relative flex items-center gap-4 group"><div class="flex items-center justify-center w-10 h-10 rounded-full border border-slate-300 bg-white text-slate-500 shrink-0 z-10"><i class="fa-solid fa-rocket text-xs"></i></div><div class="p-4 rounded border border-slate-200 bg-white flex-grow"><h4 class="font-black tracking-tighter uppercase italic text-slate-800 text-sm">06. Onboarding</h4><p class="text-[10px] text-slate-500 mt-1">System integration & contracts.</p></div></div>
+        <div class="relative flex items-center gap-4 group"><div class="flex items-center justify-center w-10 h-10 rounded-full border border-slate-300 bg-white text-slate-500 shrink-0 z-10"><i class="fa-solid fa-power-off text-xs"></i></div><div class="p-4 rounded border border-slate-200 bg-white flex-grow"><h4 class="font-black tracking-tighter uppercase italic text-slate-800 text-sm">07. Active Duty</h4><p class="text-[10px] text-slate-500 mt-1">Fully operational status.</p></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="candidate-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm hidden transition-opacity duration-300 opacity-0">
+    <div class="bg-white border border-slate-200 p-8 shadow-2xl max-w-sm w-full rounded relative m-4">
+      <button onclick="toggleCandidateLogin()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 transition-colors cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
+      <header class="mb-6 text-center">
+        <h2 class="font-black tracking-tighter uppercase italic text-2xl text-blue-600 drop-shadow-sm">Candidate Portal</h2>
+        <p class="text-[10px] uppercase font-bold tracking-widest text-slate-500 mt-2">Enter your Application ID</p>
+      </header>
+      <form id="candidate-login-form" onsubmit="submitCandidateLogin(event)" class="flex flex-col gap-4">
+        <div>
+          <input type="text" id="candidate-app-id" placeholder="SYS-XXXX" required class="w-full bg-slate-50 border border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-slate-900 px-3 py-3 outline-none transition-all rounded-sm text-center font-bold tracking-widest uppercase">
+        </div>
+        <button type="submit" id="btn-candidate-login" class="w-full bg-blue-600 text-white py-3 mt-2 rounded shadow-md hover:bg-blue-700 transition-all flex items-center justify-center gap-2 cursor-pointer">
+          <i class="fa-solid fa-unlock-keyhole"></i> <span class="text-[12px] uppercase font-black tracking-widest">Verify ID</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div id="auth-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm hidden transition-opacity duration-300 opacity-0">
+    <div class="bg-white border border-slate-200 p-8 shadow-2xl max-w-sm w-full rounded relative m-4">
+      <button onclick="toggleAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-700 transition-colors cursor-pointer">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+      <header class="mb-6 text-center">
+        <h2 class="font-black tracking-tighter uppercase italic text-2xl text-red-600 drop-shadow-sm">Admin Login</h2>
+        <p class="text-[10px] uppercase font-bold tracking-widest text-slate-500 mt-2">Authorized Personnel Only</p>
+      </header>
+      <form id="auth-form" onsubmit="submitAuth(event)" class="flex flex-col gap-4">
+        <div>
+          <label class="block text-[10px] uppercase font-bold tracking-widest text-slate-500 mb-1">Username</label>
+          <input type="text" id="auth-user" required class="w-full bg-slate-50 border border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-slate-900 px-3 py-2 outline-none transition-all rounded-sm">
+        </div>
+        <div>
+          <label class="block text-[10px] uppercase font-bold tracking-widest text-slate-500 mb-1">Password</label>
+          <input type="password" id="auth-pass" required class="w-full bg-slate-50 border border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-slate-900 px-3 py-2 outline-none transition-all rounded-sm">
+        </div>
+        <button type="submit" id="btn-auth" class="w-full bg-red-600 text-white py-3 mt-2 rounded shadow-md hover:bg-red-700 hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer">
+          <i class="fa-solid fa-right-to-bracket"></i>
+          <span class="text-[12px] uppercase font-black tracking-widest">Authenticate</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div id="view-dashboard" class="hidden h-screen w-full bg-slate-50 flex overflow-hidden absolute inset-0 z-50">
+    
+    <aside id="sidebar" class="w-64 bg-white border-r border-slate-200 flex flex-col transition-all duration-300 flex-shrink-0">
+      <div class="h-16 flex items-center justify-between px-4 border-b border-slate-200 shrink-0">
+        <span id="sidebar-logo" class="font-black tracking-tighter uppercase italic text-red-600">HR<span class="text-slate-900">Portal</span></span>
+        <button onclick="toggleSidebar()" class="text-slate-500 hover:text-red-600 cursor-pointer">
+          <i class="fa-solid fa-bars text-lg"></i>
+        </button>
+      </div>
+      <nav class="flex-grow p-4 space-y-2 overflow-y-auto">
+        <button onclick="switchDashboardView('db')" class="w-full flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-red-600 font-bold text-xs uppercase tracking-widest rounded-sm border border-transparent hover:border-red-100 hover:bg-red-50 cursor-pointer transition-colors">
+          <i class="fa-solid fa-users w-5 text-center"></i>
+          <span class="sidebar-text whitespace-nowrap">Applicant DB</span>
+        </button>
+        <button onclick="switchDashboardView('assessment')" class="w-full flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-red-600 font-bold text-xs uppercase tracking-widest rounded-sm border border-transparent hover:border-red-100 hover:bg-red-50 cursor-pointer transition-colors">
+          <i class="fa-solid fa-brain w-5 text-center"></i>
+          <span class="sidebar-text whitespace-nowrap">Assessments</span>
+        </button>
+        <button onclick="switchDashboardView('scores')" class="w-full flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-red-600 font-bold text-xs uppercase tracking-widest rounded-sm border border-transparent hover:border-red-100 hover:bg-red-50 cursor-pointer transition-colors">
+          <i class="fa-solid fa-clipboard-check w-5 text-center"></i>
+          <span class="sidebar-text whitespace-nowrap">Individual Score</span>
+        </button>
+        <button onclick="switchDashboardView('trial')" class="w-full flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-red-600 font-bold text-xs uppercase tracking-widest rounded-sm border border-transparent hover:border-red-100 hover:bg-red-50 cursor-pointer transition-colors">
+          <i class="fa-solid fa-file-signature w-5 text-center"></i>
+          <span class="sidebar-text whitespace-nowrap">Trial Data</span>
+        </button>
+      </nav>
+      <div class="p-4 border-t border-slate-200 shrink-0">
+        <button onclick="logoutAdmin()" class="w-full flex items-center gap-3 px-4 py-2 text-slate-500 hover:text-red-600 font-bold text-xs uppercase tracking-widest transition-colors cursor-pointer">
+          <i class="fa-solid fa-arrow-right-from-bracket w-5 text-center"></i>
+          <span class="sidebar-text whitespace-nowrap">Sign Out</span>
+        </button>
+      </div>
+    </aside>
+
+    <main class="flex-grow flex flex-col h-full overflow-hidden relative">
+      <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 shadow-sm shrink-0">
+        <h2 class="font-black tracking-tighter uppercase italic text-xl text-slate-800">Applicant Database</h2>
+        <button class="text-[10px] uppercase font-bold tracking-widest text-slate-500 hover:text-blue-600 transition-colors flex items-center gap-2 cursor-pointer">
+          <i class="fa-solid fa-rotate-right"></i> Refresh Data
+        </button>
+      </header>
+      
+        <div id="view-admin-db" class="bg-white border border-slate-200 rounded-sm shadow-sm overflow-hidden block w-full">
+          
+          <div class="bg-slate-50 border-b border-slate-200 p-4 flex gap-4 items-center justify-between w-full">
+            <div class="flex gap-4 items-center flex-wrap">
+              <span class="text-[10px] uppercase font-bold tracking-widest text-slate-500"><i class="fa-solid fa-filter mr-1"></i> Filter:</span>
+              
+              <select id="filter-position" onchange="applyFilters()" class="text-xs font-bold border border-slate-300 bg-white text-slate-700 px-3 py-1.5 rounded-sm outline-none focus:border-blue-500 cursor-pointer shadow-sm">
+                <option value="ALL">All Positions</option>
+                <option value="English Trainer">English Trainer</option>
+                <option value="Admin">Admin</option>
+                <option value="Person In Charge">Person In Charge</option>
+                <option value="Social Media">Social Media</option>
+              </select>
+
+              <select id="filter-status" onchange="applyFilters()" class="text-xs font-bold border border-slate-300 bg-white text-slate-700 px-3 py-1.5 rounded-sm outline-none focus:border-blue-500 cursor-pointer shadow-sm">
+                <option value="ALL">All Statuses</option>
+                <option value="NEW">01. Submit Form (New)</option>
+                <option value="HR_REVIEW">02. HR Review</option>
+                <option value="INTERVIEW">03. Interview</option>
+                <option value="COGNITIVE">04. Cognitive Assessment</option>
+                <option value="TRIAL">05. Trial Phase</option>
+                <option value="ONBOARDING">06. Onboarding</option>
+                <option value="ACTIVE">07. Active Duty</option>
+                <option value="REJECTED">Rejected</option>
+              </select>
+            </div>
+          </div> 
+          <div class="overflow-auto max-h-[65vh] w-full scrollbar-thin">
+            <table class="w-full text-left border-collapse min-w-[800px] relative">
+              <thead class="sticky top-0 z-10 shadow-sm">
+                <tr class="bg-slate-50 border-b border-slate-200 text-[10px] uppercase font-bold tracking-widest text-slate-500">
+                  <th class="p-4 bg-slate-50">App ID & Date</th>
+                  <th class="p-4 bg-slate-50">Candidate & Contact</th>
+                  <th class="p-4 bg-slate-50">Position</th>
+                  <th class="p-4 bg-slate-50">Pipeline Status</th>
+                  <th class="p-4 bg-slate-50 text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="candidate-table-body">
+                <tr><td colspan="5" class="p-8 text-center text-slate-500">Awaiting Data...</td></tr>
+              </tbody>
+            </table>
+          </div>
+          
+        </div>
+
+        <div id="view-admin-assessment" class="hidden flex-col gap-6">
+          <div class="bg-white border border-slate-200 p-6 rounded-sm shadow-sm">
+            <h3 class="font-black tracking-tighter uppercase italic text-lg text-slate-800 mb-2">Test Matrices</h3>
+            <p class="text-[10px] uppercase font-bold tracking-widest text-slate-500 mb-6">Select a protocol to preview the 50-question cognitive assessment.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <button onclick="previewAdminAssessment('Admin')" class="bg-slate-50 border border-slate-200 p-4 rounded hover:border-blue-500 hover:shadow-md transition-all text-left group cursor-pointer">
+                <i class="fa-solid fa-user-shield text-2xl text-slate-400 group-hover:text-blue-500 mb-3 block"></i>
+                <h4 class="font-bold text-sm text-slate-700 group-hover:text-blue-700">Admin Protocol</h4>
+                <p class="text-[10px] text-slate-500 mt-1">Preview specific matrix</p>
+              </button>
+              
+              <button onclick="previewAdminAssessment('English Trainer')" class="bg-slate-50 border border-slate-200 p-4 rounded hover:border-blue-500 hover:shadow-md transition-all text-left group cursor-pointer">
+                <i class="fa-solid fa-chalkboard-user text-2xl text-slate-400 group-hover:text-blue-500 mb-3 block"></i>
+                <h4 class="font-bold text-sm text-slate-700 group-hover:text-blue-700">Trainer Protocol</h4>
+                <p class="text-[10px] text-slate-500 mt-1">Preview specific matrix</p>
+              </button>
+
+              <button onclick="previewAdminAssessment('Person In Charge')" class="bg-slate-50 border border-slate-200 p-4 rounded hover:border-blue-500 hover:shadow-md transition-all text-left group cursor-pointer">
+                <i class="fa-solid fa-sitemap text-2xl text-slate-400 group-hover:text-blue-500 mb-3 block"></i>
+                <h4 class="font-bold text-sm text-slate-700 group-hover:text-blue-700">PIC Protocol</h4>
+                <p class="text-[10px] text-slate-500 mt-1">Preview specific matrix</p>
+              </button>
+            </div>
+            
+            <div class="mt-6 pt-6 border-t border-slate-100 flex justify-end">
+              <button class="text-[10px] uppercase font-bold tracking-widest text-slate-400 cursor-not-allowed flex items-center gap-2" disabled>
+                <i class="fa-solid fa-cloud-arrow-up"></i> Modify / Upload Questions (Locked)
+              </button>
+            </div>
+          </div>
+
+          <div id="admin-preview-render" class="hidden flex-col gap-4 overflow-y-auto max-h-[65vh] pr-2 pb-12 scrollbar-thin"></div>
+        </div>
+
+        <div id="view-admin-scores" class="hidden bg-white border border-slate-200 rounded-sm shadow-sm overflow-hidden block">
+          <div class="bg-slate-50 border-b border-slate-200 p-6 flex justify-between items-center">
+            <div>
+              <h3 class="font-black tracking-tighter uppercase italic text-lg text-slate-800">Assessment Results</h3>
+              <p class="text-[10px] uppercase font-bold tracking-widest text-slate-500 mt-1">Automated Cognitive Analytics</p>
+            </div>
+            <button onclick="loadScoresData()" class="text-[10px] uppercase font-bold tracking-widest text-blue-600 hover:text-blue-800 transition-colors flex items-center gap-2 cursor-pointer border border-blue-200 bg-blue-50 px-3 py-2 rounded-sm shadow-sm">
+              <i class="fa-solid fa-rotate"></i> Sync Data
+            </button>
+          </div>
+          
+          <div class="overflow-auto max-h-[65vh] w-full scrollbar-thin">
+            <table class="w-full text-left border-collapse min-w-[800px] relative">
+              <thead class="sticky top-0 z-10 shadow-sm">
+                <tr class="bg-slate-50 border-b border-slate-200 text-[10px] uppercase font-bold tracking-widest text-slate-500">
+                  <th class="p-4 bg-slate-50">Candidate Identity</th>
+                  <th class="p-4 bg-slate-50">Position</th>
+                  <th class="p-4 bg-slate-50 text-center">Total Score</th>
+                  <th class="p-4 bg-slate-50">Category & Recommendation</th>
+                </tr>
+              </thead>
+              <tbody id="score-table-body">
+                <tr><td colspan="4" class="p-8 text-center text-slate-500">Awaiting Score Synchronization...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="view-admin-trial" class="hidden bg-white border border-slate-200 rounded-sm shadow-sm overflow-hidden block">
+          <div class="bg-slate-50 border-b border-slate-200 p-6">
+            <h3 class="font-black tracking-tighter uppercase italic text-lg text-slate-800">Trial Commitments</h3>
+            <p class="text-[10px] uppercase font-bold tracking-widest text-slate-500 mt-1 mb-4">Contract Execution & Signatures</p>
+            
+            <div class="flex gap-3 flex-wrap">
+              <button onclick="openEditTrialModal('English Trainer')" class="bg-white border border-slate-200 hover:border-red-400 text-slate-600 hover:text-red-600 px-3 py-2 rounded-sm text-[10px] uppercase font-bold tracking-widest transition-colors shadow-sm"><i class="fa-solid fa-pen mr-2"></i>English Trainer</button>
+              <button onclick="openEditTrialModal('Admin')" class="bg-white border border-slate-200 hover:border-red-400 text-slate-600 hover:text-red-600 px-3 py-2 rounded-sm text-[10px] uppercase font-bold tracking-widest transition-colors shadow-sm"><i class="fa-solid fa-pen mr-2"></i>Admin</button>
+              <button onclick="openEditTrialModal('Person In Charge')" class="bg-white border border-slate-200 hover:border-red-400 text-slate-600 hover:text-red-600 px-3 py-2 rounded-sm text-[10px] uppercase font-bold tracking-widest transition-colors shadow-sm"><i class="fa-solid fa-pen mr-2"></i>PIC</button>
+              <button onclick="openEditTrialModal('Social Media')" class="bg-white border border-slate-200 hover:border-red-400 text-slate-600 hover:text-red-600 px-3 py-2 rounded-sm text-[10px] uppercase font-bold tracking-widest transition-colors shadow-sm"><i class="fa-solid fa-pen mr-2"></i>Social Media</button>
+            </div>
+          </div>
+          <div class="overflow-auto max-h-[65vh] w-full scrollbar-thin">
+            <table class="w-full text-left border-collapse min-w-[800px] relative">
+              <thead class="sticky top-0 z-10 shadow-sm">
+                <tr class="bg-slate-50 border-b border-slate-200 text-[10px] uppercase font-bold tracking-widest text-slate-500">
+                  <th class="p-4 bg-slate-50">Candidate Identity</th>
+                  <th class="p-4 bg-slate-50">Position</th>
+                  <th class="p-4 bg-slate-50">Contract Status</th>
+                  <th class="p-4 bg-slate-50 text-center">Document Link</th>
+                </tr>
+              </thead>
+              <tbody id="trial-table-body">
+                <tr><td colspan="4" class="p-8 text-center text-slate-500">Awaiting Trial Data...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="edit-q-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm hidden transition-opacity duration-300 opacity-0">
+    <div class="bg-white border border-slate-200 p-6 shadow-2xl max-w-2xl w-full rounded relative m-4 max-h-[90vh] overflow-y-auto scrollbar-thin">
+      <button onclick="toggleEditQModal()" class="absolute top-4 right-4 text-slate-400 hover:text-red-600 transition-colors cursor-pointer">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+      <header class="mb-4">
+        <h2 class="font-black tracking-tighter uppercase italic text-xl text-blue-600 drop-shadow-sm">Modify Question Matrix</h2>
+        <p id="edit-q-role-label" class="text-[10px] uppercase font-bold tracking-widest text-slate-500 mt-1">Role: </p>
+      </header>
+      
+      <form id="edit-q-form" onsubmit="saveQuestionEdit(event)" class="flex flex-col gap-4">
+        <input type="hidden" id="edit-q-row">
+        
+        <div>
+          <label class="block text-[10px] uppercase font-bold tracking-widest text-slate-500 mb-1">Question Text</label>
+          <textarea id="edit-q-text" required rows="2" class="w-full bg-slate-50 border border-slate-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 text-slate-900 px-3 py-2 outline-none transition-all resize-none rounded-sm"></textarea>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-slate-50 p-4 rounded-sm border border-slate-200 hover:border-blue-300 transition-colors focus-within:border-blue-500 focus-within:bg-blue-50/30">
+            <div class="flex justify-between items-center mb-2">
+              <label class="text-[10px] uppercase font-black tracking-widest text-blue-600 bg-blue-100 px-2 py-0.5 rounded-sm">Option A</label>
+              <div class="flex items-center gap-2">
+                <label class="text-[10px] uppercase font-bold tracking-widest text-slate-500">Weight</label>
+                <select id="edit-q-scoreA" required class="text-xs font-bold border border-slate-300 bg-white text-slate-700 px-2 py-1 rounded-sm outline-none focus:border-blue-500 cursor-pointer shadow-sm">
+                  <option value="1">1 Pt</option>
+                  <option value="2">2 Pts</option>
+                  <option value="3">3 Pts</option>
+                  <option value="4">4 Pts</option>
+                </select>
+              </div>
+            </div>
+            <textarea id="edit-q-optA" required rows="2" class="w-full text-sm border border-slate-200 bg-white focus:border-blue-500 outline-none p-2 rounded-sm resize-none"></textarea>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-sm border border-slate-200 hover:border-blue-300 transition-colors focus-within:border-blue-500 focus-within:bg-blue-50/30">
+            <div class="flex justify-between items-center mb-2">
+              <label class="text-[10px] uppercase font-black tracking-widest text-blue-600 bg-blue-100 px-2 py-0.5 rounded-sm">Option B</label>
+              <div class="flex items-center gap-2">
+                <label class="text-[10px] uppercase font-bold tracking-widest text-slate-500">Weight</label>
+                <select id="edit-q-scoreB" required class="text-xs font-bold border border-slate-300 bg-white text-slate-700 px-2 py-1 rounded-sm outline-none focus:border-blue-500 cursor-pointer shadow-sm">
+                  <option value="1">1 Pt</option>
+                  <option value="2">2 Pts</option>
+                  <option value="3">3 Pts</option>
+                  <option value="4">4 Pts</option>
+                </select>
+              </div>
+            </div>
+            <textarea id="edit-q-optB" required rows="2" class="w-full text-sm border border-slate-200 bg-white focus:border-blue-500 outline-none p-2 rounded-sm resize-none"></textarea>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-sm border border-slate-200 hover:border-blue-300 transition-colors focus-within:border-blue-500 focus-within:bg-blue-50/30">
+            <div class="flex justify-between items-center mb-2">
+              <label class="text-[10px] uppercase font-black tracking-widest text-blue-600 bg-blue-100 px-2 py-0.5 rounded-sm">Option C</label>
+              <div class="flex items-center gap-2">
+                <label class="text-[10px] uppercase font-bold tracking-widest text-slate-500">Weight</label>
+                <select id="edit-q-scoreC" required class="text-xs font-bold border border-slate-300 bg-white text-slate-700 px-2 py-1 rounded-sm outline-none focus:border-blue-500 cursor-pointer shadow-sm">
+                  <option value="1">1 Pt</option>
+                  <option value="2">2 Pts</option>
+                  <option value="3">3 Pts</option>
+                  <option value="4">4 Pts</option>
+                </select>
+              </div>
+            </div>
+            <textarea id="edit-q-optC" required rows="2" class="w-full text-sm border border-slate-200 bg-white focus:border-blue-500 outline-none p-2 rounded-sm resize-none"></textarea>
+          </div>
+
+          <div class="bg-slate-50 p-4 rounded-sm border border-slate-200 hover:border-blue-300 transition-colors focus-within:border-blue-500 focus-within:bg-blue-50/30">
+            <div class="flex justify-between items-center mb-2">
+              <label class="text-[10px] uppercase font-black tracking-widest text-blue-600 bg-blue-100 px-2 py-0.5 rounded-sm">Option D</label>
+              <div class="flex items-center gap-2">
+                <label class="text-[10px] uppercase font-bold tracking-widest text-slate-500">Weight</label>
+                <select id="edit-q-scoreD" required class="text-xs font-bold border border-slate-300 bg-white text-slate-700 px-2 py-1 rounded-sm outline-none focus:border-blue-500 cursor-pointer shadow-sm">
+                  <option value="1">1 Pt</option>
+                  <option value="2">2 Pts</option>
+                  <option value="3">3 Pts</option>
+                  <option value="4">4 Pts</option>
+                </select>
+              </div>
+            </div>
+            <textarea id="edit-q-optD" required rows="2" class="w-full text-sm border border-slate-200 bg-white focus:border-blue-500 outline-none p-2 rounded-sm resize-none"></textarea>
+          </div>
+        </div>
+
+        <button type="submit" id="btn-save-q" class="w-full bg-blue-600 text-white py-3 mt-2 rounded shadow-md hover:bg-blue-700 transition-all flex items-center justify-center gap-2 cursor-pointer">
+          <i class="fa-solid fa-floppy-disk"></i>
+          <span class="text-[12px] uppercase font-black tracking-widest">Commit Changes</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div id="edit-trial-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm hidden transition-opacity duration-300 opacity-0">
+    <div class="bg-white border border-slate-200 p-6 shadow-2xl max-w-2xl w-full rounded relative m-4 max-h-[90vh] overflow-y-auto scrollbar-thin">
+      <button onclick="toggleEditTrialModal()" class="absolute top-4 right-4 text-slate-400 hover:text-red-600 transition-colors cursor-pointer"><i class="fa-solid fa-xmark text-lg"></i></button>
+      <header class="mb-4">
+        <h2 class="font-black tracking-tighter uppercase italic text-xl text-red-600 drop-shadow-sm">Edit Contract Terms</h2>
+        <p id="edit-trial-role-label" class="text-[10px] uppercase font-bold tracking-widest text-slate-500 mt-1">Role: </p>
+      </header>
+      
+      <form id="edit-trial-form" onsubmit="saveTrialEdit(event)" class="flex flex-col gap-4">
+        <input type="hidden" id="edit-trial-role">
+        <div>
+          <label class="block text-[10px] uppercase font-bold tracking-widest text-slate-500 mb-1">Article 1: Expectations</label>
+          <textarea id="edit-art1" required rows="3" class="w-full text-sm border border-slate-300 bg-slate-50 focus:border-red-500 outline-none p-3 rounded-sm resize-none"></textarea>
+        </div>
+        <div>
+          <label class="block text-[10px] uppercase font-bold tracking-widest text-slate-500 mb-1">Article 2: Commitment</label>
+          <textarea id="edit-art2" required rows="3" class="w-full text-sm border border-slate-300 bg-slate-50 focus:border-red-500 outline-none p-3 rounded-sm resize-none"></textarea>
+        </div>
+        <div>
+          <label class="block text-[10px] uppercase font-bold tracking-widest text-slate-500 mb-1">Article 3: Penalty</label>
+          <textarea id="edit-art3" required rows="3" class="w-full text-sm border border-slate-300 bg-slate-50 focus:border-red-500 outline-none p-3 rounded-sm resize-none"></textarea>
+        </div>
+        <button type="submit" id="btn-save-trial" class="w-full bg-red-600 text-white py-3 mt-2 rounded shadow-md hover:bg-red-700 transition-all flex items-center justify-center gap-2 cursor-pointer">
+          <i class="fa-solid fa-floppy-disk"></i><span class="text-[12px] uppercase font-black tracking-widest">Commit Changes</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // --- API GATE COMMUNICATION (REST API) ---
+    // IMPORTANT: Paste your new Google Apps Script Web App URL below
+    const GAS_URL = "https://script.google.com/macros/s/AKfycbymQR1ER4BrlbC_Iszh1VmL74nTmati_i5mN8aUNftJI4-unmpF3lLHZRsZ16iZiLGV/exec"; 
+
+    const server = {
+      call: async (action, data = {}) => {
+        try {
+          const response = await fetch(GAS_URL, {
+            method: 'POST',
+            // Using text/plain prevents GitHub CORS preflight blocks
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' }, 
+            body: JSON.stringify({ action, data })
+          });
+          
+          return await response.json();
+        } catch (error) {
+          throw new Error("Network/CORS Error: " + error.message);
+        }
+      }
+    };
+
+    // --- FRONTEND URL TOKEN CAPTURE ---
+    // Since we aren't using HTML templates anymore, we grab the token from the URL bar
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const token = urlParams.get('token');
+      
+      if (token) {
+        document.getElementById('candidate-app-id').value = token;
+        toggleCandidateLogin();
+      }
+    });
+
+    // --- GLOBAL STATE ---
+    let currentAdminEmail = '';
+    let currentCandidateToken = null;
+    let pendingAssessmentData = null;
+    let testTimerInterval;
+    let allCandidatesData = []; // NEW: Stores all candidates for instant filtering
+
+
+    // --- UI TOGGLES & MODALS ---
+    function toggleModal(message = '', isError = false) {
+      const modal = document.getElementById('sys-modal');
+      const content = document.getElementById('modal-content');
+      const icon = document.getElementById('modal-icon');
+      
+      if (message) {
+        content.innerText = message;
+        icon.className = isError 
+          ? "fa-solid fa-triangle-exclamation text-4xl text-red-600 mb-4 drop-shadow-sm" 
+          : "fa-solid fa-circle-check text-4xl text-blue-500 mb-4 drop-shadow-sm";
+      }
+      modal.classList.toggle('hidden');
+    }
+
+    function toggleProcessModal() {
+      const modal = document.getElementById('process-modal');
+      if (modal.classList.contains('hidden')) {
+        modal.classList.remove('hidden');
+        void modal.offsetWidth; 
+        modal.classList.remove('opacity-0');
+        document.body.classList.add('overflow-hidden'); 
+      } else {
+        modal.classList.add('opacity-0');
+        setTimeout(() => modal.classList.add('hidden'), 300); 
+        document.body.classList.remove('overflow-hidden');
+      }
+    }
+
+    function toggleAuthModal() {
+      const modal = document.getElementById('auth-modal');
+      if (modal.classList.contains('hidden')) {
+        modal.classList.remove('hidden');
+        void modal.offsetWidth; 
+        modal.classList.remove('opacity-0');
+        document.body.classList.add('overflow-hidden'); 
+      } else {
+        modal.classList.add('opacity-0');
+        setTimeout(() => modal.classList.add('hidden'), 300); 
+        document.body.classList.remove('overflow-hidden');
+      }
+    }
+
+    function handleModalClick(event) {
+      if (event.target.id === 'process-modal') {
+        toggleProcessModal();
+      }
+    }
+
+    // --- DASHBOARD UI CONTROLS ---
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const texts = document.querySelectorAll('.sidebar-text');
+      const logo = document.getElementById('sidebar-logo');
+      
+      if (sidebar.classList.contains('w-64')) {
+        sidebar.classList.replace('w-64', 'w-16');
+        texts.forEach(t => t.classList.add('hidden'));
+        logo.classList.add('hidden');
+      } else {
+        sidebar.classList.replace('w-16', 'w-64');
+        texts.forEach(t => t.classList.remove('hidden'));
+        logo.classList.remove('hidden');
+      }
+    }
+
+    function logoutAdmin() {
+      document.getElementById('view-dashboard').classList.add('hidden');
+      document.getElementById('view-public').classList.remove('hidden');
+      toggleModal('Logged out securely.', false);
+    }
+
+    // --- FILE HANDLING ---
+    document.getElementById('app-cv').addEventListener('change', function(e) {
+      const display = document.getElementById('cv-filename');
+      if (e.target.files.length > 0) {
+        display.innerText = "SELECTED: " + e.target.files[0].name;
+        display.classList.remove('hidden');
+      } else {
+        display.classList.add('hidden');
+      }
+    });
+
+    const getBase64 = (file) => new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = error => reject(error);
+    });
+
+    // --- FORM SUBMISSIONS ---
+    async function submitApplication(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btn-submit');
+      const originalHtml = btn.innerHTML;
+      
+      btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> <span class="text-[12px] uppercase font-black tracking-widest">Transmitting...</span>`;
+      btn.disabled = true;
+
+      try {
+        const fileInput = document.getElementById('app-cv');
+        const file = fileInput.files[0];
+        if (!file) throw new Error("CV file missing.");
+
+        const base64Data = await getBase64(file);
+        
+        const payload = {
+          name: document.getElementById('app-name').value,
+          address: document.getElementById('app-address').value,
+          email: document.getElementById('app-email').value,
+          wa: document.getElementById('app-wa').value,
+          position: document.querySelector('input[name="position"]:checked').value,
+          link: document.getElementById('app-link').value,
+          cvName: file.name,
+          cvMimeType: file.type,
+          cvBase64: base64Data
+        };
+
+        const response = await server.call('SUBMIT_APPLICATION', payload);
+        
+        if (response.status === 'success') {
+          toggleModal('Data transmitted successfully. Awaiting HR processing.');
+          document.getElementById('recruitment-form').reset();
+          document.getElementById('cv-filename').classList.add('hidden');
+        } else {
+          throw new Error(response.message);
+        }
+      } catch (err) {
+        toggleModal('CRITICAL ERR: ' + err.message, true);
+      } finally {
+        btn.innerHTML = originalHtml;
+        btn.disabled = false;
+      }
+    }
+
+    async function submitAuth(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btn-auth');
+      const originalHtml = btn.innerHTML;
+      
+      btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> <span class="text-[12px] uppercase font-black tracking-widest">Verifying...</span>`;
+      btn.disabled = true;
+
+      try {
+        const payload = {
+          username: document.getElementById('auth-user').value,
+          password: document.getElementById('auth-pass').value
+        };
+
+        const response = await server.call('AUTHENTICATE_ADMIN', payload);
+        
+        if (response.status === 'success') {
+          currentAdminEmail = response.payload.email; // NEW: Memorize Admin Email
+          toggleAuthModal();
+          
+          // Execute SPA Transition
+          document.getElementById('view-public').classList.add('hidden');
+          document.getElementById('view-dashboard').classList.remove('hidden');
+          
+          // FETCH THE REAL DATA
+          loadDashboardData(); 
+        } else {
+          throw new Error(response.message);
+        }
+      } catch (err) {
+        toggleModal('AUTH ERR: ' + err.message, true);
+      } finally {
+        btn.innerHTML = originalHtml;
+        btn.disabled = false;
+      }
+    }
+
+    // --- DASHBOARD DATA FETCHING & RENDERING ---
+    async function loadDashboardData() {
+      const tbody = document.getElementById('candidate-table-body');
+      tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-slate-500"><i class="fa-solid fa-spinner animate-spin mr-2 text-blue-600 text-lg"></i> Loading candidate data...</td></tr>`;
+
+      try {
+        const response = await server.call('FETCH_CANDIDATES');
+        if (response.status === 'success') {
+          allCandidatesData = response.payload; // Store data globally
+          applyFilters(); // Automatically render based on current filter dropdowns
+        } else {
+          throw new Error(response.message);
+        }
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-red-500 font-bold">Error loading data: ${err.message}</td></tr>`;
+      }
+    }
+
+    function applyFilters() {
+      const posFilter = document.getElementById('filter-position').value;
+      const statFilter = document.getElementById('filter-status').value;
+      
+      let filteredList = allCandidatesData;
+      
+      // Filter by Position
+      if (posFilter !== 'ALL') {
+        filteredList = filteredList.filter(c => c.position === posFilter);
+      }
+      
+      // Filter by Status
+      if (statFilter !== 'ALL') {
+        filteredList = filteredList.filter(c => c.status === statFilter);
+      }
+      
+      renderTable(filteredList);
+    }
+
+    function renderTable(candidates) {
+      const tbody = document.getElementById('candidate-table-body');
+      
+      if (candidates.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-slate-500 italic">No candidates found in the database.</td></tr>`;
+        return;
+      }
+
+      // Map string statuses from Google Sheet to numeric dropdown values
+      const statusMap = { 'NEW': 1, 'HR_REVIEW': 2, 'INTERVIEW': 3, 'COGNITIVE': 4, 'TRIAL': 5, 'ONBOARDING': 6, 'ACTIVE': 7 };
+
+      tbody.innerHTML = candidates.map(c => {
+        const currentStep = statusMap[c.status] || 1; 
+        
+        // Format Date and WA Link
+        const applyDate = c.date ? new Date(c.date).toLocaleDateString() : 'N/A';
+        const cleanWA = c.wa ? c.wa.replace(/\D/g, '') : ''; // Strip non-numbers
+        
+        return `
+          <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+            <td class="p-4 text-xs text-slate-700">
+              <div class="font-bold">${c.id}</div>
+              <div class="text-[10px] text-slate-400 mt-1"><i class="fa-regular fa-clock"></i> ${applyDate}</div>
+            </td>
+            <td class="p-4 text-sm text-slate-900">
+              <span class="font-bold">${c.name}</span>
+              <div class="text-[10px] font-bold mt-1 flex gap-3">
+                ${cleanWA ? `<a href="https://wa.me/${cleanWA}" target="_blank" class="text-green-600 hover:text-green-800 transition-colors"><i class="fa-brands fa-whatsapp text-sm"></i> Chat WA</a>` : ''}
+              </div>
+              <div class="text-[10px] text-slate-500 mt-1 flex gap-3">
+                ${c.cvLink ? `<a href="${c.cvLink}" target="_blank" class="hover:text-blue-600 transition-colors"><i class="fa-solid fa-file-pdf"></i> CV</a>` : ''}
+                ${c.portfolio ? `<a href="${c.portfolio}" target="_blank" class="hover:text-blue-600 transition-colors"><i class="fa-solid fa-link"></i> Portfolio</a>` : ''}
+              </div>
+            </td>
+            <td class="p-4 text-xs text-slate-600">${c.position}</td>
+            <td class="p-4">
+              <select onchange="updateCandidateStatus('${c.id}', this.value)" class="text-[10px] font-bold uppercase tracking-widest bg-white border border-slate-300 text-slate-700 py-1.5 px-2 rounded-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 cursor-pointer shadow-sm">
+                <option value="1" ${currentStep === 1 ? 'selected' : ''}>01. Submit Form</option>
+                <option value="2" ${currentStep === 2 ? 'selected' : ''}>02. HR Review</option>
+                <option value="3" ${currentStep === 3 ? 'selected' : ''}>03. Interview</option>
+                <option value="4" ${currentStep === 4 ? 'selected' : ''}>04. Cognitive Assessment</option>
+                <option value="5" ${currentStep === 5 ? 'selected' : ''}>05. Trial Phase</option>
+                <option value="6" ${currentStep === 6 ? 'selected' : ''}>06. Onboarding</option>
+                <option value="7" ${currentStep === 7 ? 'selected' : ''}>07. Active Duty</option>
+              </select>
+            </td>
+            <td class="p-4 text-center space-x-3">
+              <button onclick="deleteCandidate('${c.id}')" class="text-slate-400 hover:text-red-600 transition-colors cursor-pointer" title="Delete Candidate"><i class="fa-solid fa-trash"></i></button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // --- DASHBOARD ACTIONS (UPDATE & DELETE) ---
+    async function updateCandidateStatus(id, stepValue) {
+      // Map numeric step back to backend string
+      const reverseStatusMap = { '1': 'NEW', '2': 'HR_REVIEW', '3': 'INTERVIEW', '4': 'COGNITIVE', '5': 'TRIAL', '6': 'ONBOARDING', '7': 'ACTIVE' };
+      const newStatus = reverseStatusMap[stepValue];
+
+      toggleModal('Updating pipeline and transmitting email...');
+      
+      try {
+        const res = await server.call('UPDATE_STATUS', { id, status: newStatus, adminEmail: currentAdminEmail });
+        if (res.status === 'success') {
+          toggleModal(res.message);
+          loadDashboardData(); // Refresh UI silently in background
+        } else throw new Error(res.message);
+      } catch (err) {
+        toggleModal('CRITICAL ERR: ' + err.message, true);
+        loadDashboardData(); // Revert dropdown on failure
+      }
+    }
+
+    async function deleteCandidate(id) {
+      if (!confirm(`Are you sure you want to permanently delete candidate ${id}?`)) return;
+
+      toggleModal('Purging record from database...');
+      
+      try {
+        const res = await server.call('DELETE_CANDIDATE', { id });
+        if (res.status === 'success') {
+          toggleModal(res.message);
+          loadDashboardData(); // Refresh UI
+        } else throw new Error(res.message);
+      } catch (err) {
+        toggleModal('CRITICAL ERR: ' + err.message, true);
+      }
+    }
+
+    // --- CANDIDATE LOGIN & TIMER LOGIC ---
+    function toggleCandidateLogin() {
+      const modal = document.getElementById('candidate-modal');
+      if (modal.classList.contains('hidden')) {
+        modal.classList.remove('hidden');
+        void modal.offsetWidth; 
+        modal.classList.remove('opacity-0');
+      } else {
+        modal.classList.add('opacity-0');
+        setTimeout(() => modal.classList.add('hidden'), 300); 
+      }
+    }
+
+
+    async function submitCandidateLogin(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btn-candidate-login');
+      const originalHtml = btn.innerHTML;
+      const inputId = document.getElementById('candidate-app-id').value.trim().toUpperCase();
+      
+      btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Verifying...`;
+      btn.disabled = true;
+
+      try {
+        const response = await server.call('FETCH_ASSESSMENT', { token: inputId });
+        
+        if (response.status === 'success') {
+          currentCandidateToken = inputId;
+          toggleCandidateLogin();
+          document.getElementById('view-application').classList.add('hidden');
+          document.querySelector('nav').classList.add('hidden'); 
+          
+          // Show the Central Hub
+          document.getElementById('view-candidate-hub').classList.remove('hidden');
+          document.getElementById('hub-candidate-name').innerText = response.payload.name;
+          document.getElementById('hub-candidate-id').innerText = inputId;
+
+          const btnTest = document.getElementById('btn-hub-test');
+          const cardContract = document.getElementById('card-contract');
+          const btnContract = document.getElementById('btn-hub-contract');
+
+          // ROUTING LOGIC (Lock/Unlock Cards)
+          if (response.payload.phase === 'COGNITIVE') {
+            pendingAssessmentData = response.payload.questions;
+            // Test is active, Contract is locked
+            btnTest.disabled = false;
+            btnContract.disabled = true;
+          } else if (response.payload.phase === 'TRIAL') {
+            // Test is done, Contract is active
+            btnTest.disabled = true;
+            btnTest.classList.add('hidden');
+            document.getElementById('status-hub-test').classList.remove('hidden');
+            
+            cardContract.classList.remove('opacity-50', 'grayscale');
+            cardContract.classList.add('border-red-400');
+            btnContract.disabled = false;
+
+            // INJECT DYNAMIC ARTICLES FROM SHEET
+            const articles = response.payload.articles || {};
+            document.getElementById('agreement-text-container').innerHTML = `
+              <p>Welcome to the Trial Phase at Kampung Inggris Pontianak.</p>
+              <p>By entering this phase, you are receiving proprietary company training and resources valued significantly by the organization.</p>
+              <p class="font-bold text-red-600 mt-4">Article 1: Role Expectations</p>
+              <p>${articles.art1 || 'Standard expectation terms apply.'}</p>
+              <p class="font-bold text-red-600 mt-4">Article 2: Commitment Agreement</p>
+              <p>${articles.art2 || 'Standard resource protection terms apply.'}</p>
+              <p class="font-bold text-red-600 mt-4">Article 3: Resource Protection & Recuperation Charge</p>
+              <p>${articles.art3 || 'Standard recuperation charges apply.'}</p>
+            `;
+          }
+        } else throw new Error(response.message);
+      } catch (err) {
+        toggleModal('ACCESS DENIED: ' + err.message, true);
+      } finally {
+        btn.innerHTML = originalHtml;
+        btn.disabled = false;
+      }
+    }
+
+
+    function launchAssessmentFromHub() {
+      document.getElementById('view-candidate-hub').classList.add('hidden');
+      document.getElementById('view-assessment').classList.remove('hidden');
+      document.getElementById('display-token').innerText = currentCandidateToken;
+    }
+
+    function launchContractFromHub() {
+      document.getElementById('view-candidate-hub').classList.add('hidden');
+      document.getElementById('view-agreement').classList.remove('hidden');
+      document.getElementById('agreement-display-token').innerText = currentCandidateToken;
+    }
+
+    async function submitDigitalSignature(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btn-sign-agreement');
+      const originalHtml = btn.innerHTML;
+      const signature = document.getElementById('digital-signature').value;
+
+      btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Executing...`;
+      btn.disabled = true;
+
+      try {
+        const response = await server.call('SIGN_AGREEMENT', { token: currentCandidateToken, signature: signature });
+        if (response.status === 'success') {
+          document.getElementById('view-agreement').innerHTML = `
+            <div class="bg-white border border-slate-200 p-12 rounded shadow-sm w-full text-center max-w-3xl mx-auto mt-12">
+              <i class="fa-solid fa-file-signature text-5xl text-red-500 mb-4"></i>
+              <h3 class="text-2xl font-black tracking-tight text-slate-800 mb-2">Agreement Executed</h3>
+              <p class="text-sm text-slate-500">Your commitment has been permanently logged. Please report to your coordinator to begin your Trial Phase training.</p>
+            </div>
+          `;
+        } else throw new Error(response.message);
+      } catch (err) {
+        toggleModal('SYS ERR: ' + err.message, true);
+        btn.innerHTML = originalHtml;
+        btn.disabled = false;
+      }
+    }
+
+    function startAssessmentTest() {
+      // If authorized, proceed with the test (Gatekeeper removed)
+      document.getElementById('assessment-intro').classList.add('hidden');
+      document.getElementById('assessment-timer-bar').classList.remove('hidden');
+      document.getElementById('assessment-timer-bar').classList.add('flex');
+      
+      // Pass the questions array directly to the renderer
+      renderAssessment(pendingAssessmentData);
+      startCountdownTimer(45); // Set test duration
+    }
+
+    function startCountdownTimer(minutes) {
+      let timeInSeconds = minutes * 60;
+      const display = document.getElementById('countdown-display');
+      
+      testTimerInterval = setInterval(() => {
+        let m = Math.floor(timeInSeconds / 60);
+        let s = timeInSeconds % 60;
+        
+        display.innerText = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+        
+        if (timeInSeconds <= 300) {
+          // Under 5 minutes warning
+          display.classList.remove('text-white');
+          display.classList.add('text-red-500', 'animate-pulse');
+        }
+        
+        if (timeInSeconds <= 0) {
+          clearInterval(testTimerInterval);
+          toggleModal('Time Limit Reached. Auto-transmitting answers...', true);
+          submitAssessmentAnswers(); // Force submit
+        }
+        timeInSeconds--;
+      }, 1000);
+    }
+
+    function renderAssessment(questions) {
+      const renderArea = document.getElementById('questions-render-area');
+      renderArea.classList.remove('hidden');
+      renderArea.classList.add('flex'); // Enable flex column
+
+      let htmlBlock = '';
+      
+      // Loop through all questions and build the UI
+      questions.forEach((q, index) => {
+        // Use index + 1 if 'num' is blank, just to be safe
+        const qNum = q.num || (index + 1); 
+        
+        htmlBlock += `
+          <div class="bg-white border border-slate-200 p-6 rounded shadow-sm w-full">
+            <h4 class="font-bold text-slate-800 mb-4"><span class="text-blue-600 mr-2">${qNum}.</span> ${q.text}</h4>
+            <div class="flex flex-col gap-3 pl-4">
+              
+              <label class="flex items-center gap-3 p-3 border border-slate-200 bg-slate-50 cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-colors group rounded-sm">
+                <input type="radio" name="q_${index}" value="A" required class="accent-blue-600">
+                <span class="text-sm text-slate-700">${q.optA}</span>
+              </label>
+              
+              <label class="flex items-center gap-3 p-3 border border-slate-200 bg-slate-50 cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-colors group rounded-sm">
+                <input type="radio" name="q_${index}" value="B" required class="accent-blue-600">
+                <span class="text-sm text-slate-700">${q.optB}</span>
+              </label>
+              
+              <label class="flex items-center gap-3 p-3 border border-slate-200 bg-slate-50 cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-colors group rounded-sm">
+                <input type="radio" name="q_${index}" value="C" required class="accent-blue-600">
+                <span class="text-sm text-slate-700">${q.optC}</span>
+              </label>
+              
+              <label class="flex items-center gap-3 p-3 border border-slate-200 bg-slate-50 cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition-colors group rounded-sm">
+                <input type="radio" name="q_${index}" value="D" required class="accent-blue-600">
+                <span class="text-sm text-slate-700">${q.optD}</span>
+              </label>
+              
+            </div>
+          </div>
+        `;
+      });
+
+      // Add the final submit button at the bottom of the test
+      htmlBlock += `
+        <button onclick="submitAssessmentAnswers()" id="btn-submit-test" class="w-full bg-blue-600 text-white py-4 mt-4 rounded shadow-md hover:bg-blue-700 hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer">
+          <i class="fa-solid fa-satellite-dish"></i>
+          <span class="text-[12px] uppercase font-black tracking-widest">Transmit Final Answers</span>
+        </button>
+      `;
+
+      renderArea.innerHTML = htmlBlock;
+    }
+
+   
+    // --- SUBMIT ASSESSMENT & AUTO-GRADE ---
+    async function submitAssessmentAnswers() {
+      clearInterval(testTimerInterval); // Stop the timer
+      const btn = document.getElementById('btn-submit-test');
+      const originalHtml = btn.innerHTML;
+      
+      // 1. Gather all answers dynamically based on how many questions rendered
+      const answers = [];
+      const totalQuestions = document.querySelectorAll('#questions-render-area > div').length;
+      let unanswered = 0;
+
+      for (let i = 0; i < totalQuestions; i++) {
+        const selected = document.querySelector(`input[name="q_${i}"]:checked`);
+        if (selected) {
+          answers.push(selected.value);
+        } else {
+          answers.push(''); // Blank if they skipped it
+          unanswered++;
+        }
+      }
+
+      // Optional: Prevent submission if questions are skipped
+      if (unanswered > 0) {
+        toggleModal(`Warning: You have ${unanswered} unanswered question(s). Please complete the matrix.`, true);
+        return;
+      }
+
+      // 2. Transmit Payload
+      btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> <span class="text-[12px] uppercase font-black tracking-widest">Processing Matrix...</span>`;
+      btn.disabled = true;
+
+      try {
+        const payload = {
+          token: currentCandidateToken,
+          answers: answers
+        };
+
+        const response = await server.call('SUBMIT_ASSESSMENT', payload);
+        
+        if (response.status === 'success') {
+          // Hide the test and show a completion message
+          document.getElementById('questions-render-area').innerHTML = `
+            <div class="bg-white border border-slate-200 p-12 rounded shadow-sm w-full text-center">
+              <i class="fa-solid fa-check-circle text-5xl text-blue-500 mb-4"></i>
+              <h3 class="text-2xl font-black tracking-tight text-slate-800 mb-2">Transmission Complete</h3>
+              <p class="text-sm text-slate-500">Your cognitive assessment has been logged. HR will review your results and contact you shortly.</p>
+            </div>
+          `;
+        } else {
+          throw new Error(response.message);
+        }
+      } catch (err) {
+        toggleModal('SYS ERR: ' + err.message, true);
+        btn.innerHTML = originalHtml;
+        btn.disabled = false;
+      }
+    }
+
+    // --- DASHBOARD VIEW SWITCHER (UPGRADED) ---
+    function switchDashboardView(view) {
+      const views = ['db', 'assessment', 'scores', 'trial'];
+      views.forEach(v => {
+        document.getElementById(`view-admin-${v}`).classList.add('hidden');
+        document.getElementById(`view-admin-${v}`).classList.remove('block', 'flex');
+      });
+
+      if (view === 'db') { document.getElementById('view-admin-db').classList.replace('hidden', 'block'); loadDashboardData(); }
+      if (view === 'assessment') { document.getElementById('view-admin-assessment').classList.replace('hidden', 'flex'); }
+      if (view === 'scores') { document.getElementById('view-admin-scores').classList.replace('hidden', 'block'); loadScoresData(); }
+      if (view === 'trial') { document.getElementById('view-admin-trial').classList.replace('hidden', 'block'); loadTrialCommitments(); }
+    }
+
+    // --- TRIAL COMMITMENT FETCHING ---
+    async function loadTrialCommitments() {
+      const tbody = document.getElementById('trial-table-body');
+      tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-slate-500"><i class="fa-solid fa-spinner animate-spin mr-2 text-blue-600 text-lg"></i> Compiling Trial Data...</td></tr>`;
+
+      try {
+        const response = await server.call('FETCH_TRIAL_DATA');
+        if (response.status === 'success') {
+          if (response.payload.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-slate-500 italic">No candidates in Trial Phase.</td></tr>`;
+            return;
+          }
+          
+          tbody.innerHTML = response.payload.map(c => {
+            const hasSigned = c.pdfUrl !== '';
+            const statusBadge = hasSigned 
+              ? `<span class="bg-green-100 text-green-700 border border-green-200 px-2 py-1 rounded-sm text-[10px] font-bold tracking-widest uppercase"><i class="fa-solid fa-check mr-1"></i> Executed</span>`
+              : `<span class="bg-orange-100 text-orange-700 border border-orange-200 px-2 py-1 rounded-sm text-[10px] font-bold tracking-widest uppercase"><i class="fa-solid fa-clock mr-1"></i> Pending Signature</span>`;
+            
+            const linkButton = hasSigned
+              ? `<a href="${c.pdfUrl}" target="_blank" class="bg-red-50 text-red-600 hover:bg-red-100 hover:text-red-700 border border-red-200 px-3 py-1.5 rounded-sm text-[10px] font-bold tracking-widest uppercase transition-colors inline-flex items-center gap-2"><i class="fa-solid fa-file-pdf"></i> View PDF</a>`
+              : `<span class="text-slate-400 text-[10px] uppercase font-bold tracking-widest">Unavailable</span>`;
+
+            return `
+              <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                <td class="p-4"><div class="font-bold text-sm text-slate-900">${c.name}</div><div class="text-[10px] text-slate-400 mt-1 font-mono">${c.id}</div></td>
+                <td class="p-4 text-xs text-slate-600 font-bold">${c.position}</td>
+                <td class="p-4">${statusBadge}</td>
+                <td class="p-4 text-center">${linkButton}</td>
+              </tr>
+            `;
+          }).join('');
+        } else throw new Error(response.message);
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-red-500 font-bold">Error: ${err.message}</td></tr>`;
+      }
+    }
+
+    // --- SCORE FETCHING & RUBRIC LOGIC ---
+    async function loadScoresData() {
+      const tbody = document.getElementById('score-table-body');
+      tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-slate-500"><i class="fa-solid fa-spinner animate-spin mr-2 text-blue-600 text-lg"></i> Compiling Analytics...</td></tr>`;
+
+      try {
+        const response = await server.call('FETCH_SCORES');
+        if (response.status === 'success') {
+          renderScoresTable(response.payload);
+        } else throw new Error(response.message);
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-red-500 font-bold">Error: ${err.message}</td></tr>`;
+      }
+    }
+
+    function interpretScore(score) {
+      if (score >= 180) return { cat: 'Sangat Cocok', rec: 'Sangat direkomendasikan', color: 'text-green-700 bg-green-50 border-green-200' };
+      if (score >= 165) return { cat: 'Cocok Baik', rec: 'Direkomendasikan, interview lebih dalam', color: 'text-emerald-700 bg-emerald-50 border-emerald-200' };
+      if (score >= 150) return { cat: 'Cukup', rec: 'Bisa dipertimbangkan', color: 'text-blue-700 bg-blue-50 border-blue-200' };
+      if (score >= 130) return { cat: 'Kurang Cocok', rec: 'Risiko tinggi, evaluasi ketat', color: 'text-orange-700 bg-orange-50 border-orange-200' };
+      return { cat: 'Tidak Direkomendasikan', rec: 'Hindari untuk posisi ini', color: 'text-red-700 bg-red-50 border-red-200' };
+    }
+
+    function renderScoresTable(scores) {
+      const tbody = document.getElementById('score-table-body');
+      if (scores.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-slate-500 italic">No assessment data found.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = scores.map(s => {
+        const interpretation = interpretScore(s.score);
+        return `
+          <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+            <td class="p-4">
+              <div class="font-bold text-sm text-slate-900">${s.name}</div>
+              <div class="text-[10px] text-slate-400 mt-1 font-mono">${s.id}</div>
+            </td>
+            <td class="p-4 text-xs text-slate-600 font-bold">${s.position}</td>
+            <td class="p-4 text-center">
+              <span class="text-lg font-black font-mono text-slate-800">${s.score}</span>
+            </td>
+            <td class="p-4">
+              <div class="inline-block px-3 py-2 border rounded-sm ${interpretation.color} shadow-sm w-full max-w-xs">
+                <div class="font-black tracking-tighter uppercase italic text-xs mb-1 drop-shadow-sm">${interpretation.cat}</div>
+                <div class="text-[10px] uppercase font-bold tracking-widest opacity-80 leading-tight">${interpretation.rec}</div>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    // --- ADMIN PREVIEW ASSESSMENT LOGIC ---
+    let currentPreviewData = []; // Store matrix data globally for editing
+    let currentPreviewRole = ''; // Store the role being edited
+
+    async function previewAdminAssessment(role) {
+      currentPreviewRole = role;
+      const renderArea = document.getElementById('admin-preview-render');
+      renderArea.classList.remove('hidden');
+      renderArea.classList.add('flex');
+      renderArea.innerHTML = `<div class="p-8 text-center text-slate-500"><i class="fa-solid fa-spinner animate-spin mr-2 text-blue-600 text-lg"></i> Fetching ${role} matrix from database...</div>`;
+
+      try {
+        const response = await server.call('FETCH_PREVIEW', { role: role });
+        
+        if (response.status === 'success') {
+          currentPreviewData = response.payload;
+          let htmlBlock = `<h3 class="font-black tracking-tighter uppercase italic text-md text-slate-800 mb-2 mt-4">Previewing: ${role} Questions</h3>`;
+          
+          currentPreviewData.forEach((q, index) => {
+            const qNum = q.num || (index + 1); 
+            htmlBlock += `
+              <div class="bg-white border border-slate-200 p-4 rounded shadow-sm w-full relative group">
+                <button onclick="openEditQModal(${index})" class="absolute top-4 right-4 text-slate-300 hover:text-blue-600 transition-colors cursor-pointer" title="Edit Question">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+                <h4 class="font-bold text-sm text-slate-800 mb-3 pr-8"><span class="text-blue-600 mr-2">${qNum}.</span> ${q.text}</h4>
+                <div class="grid grid-cols-2 gap-2 pl-4">
+                  <div class="text-[11px] text-slate-600 bg-slate-50 p-2 rounded border border-slate-100 flex justify-between"><span><strong>A.</strong> ${q.optA}</span> <span class="text-blue-400 font-bold">[${q.scoreA}]</span></div>
+                  <div class="text-[11px] text-slate-600 bg-slate-50 p-2 rounded border border-slate-100 flex justify-between"><span><strong>B.</strong> ${q.optB}</span> <span class="text-blue-400 font-bold">[${q.scoreB}]</span></div>
+                  <div class="text-[11px] text-slate-600 bg-slate-50 p-2 rounded border border-slate-100 flex justify-between"><span><strong>C.</strong> ${q.optC}</span> <span class="text-blue-400 font-bold">[${q.scoreC}]</span></div>
+                  <div class="text-[11px] text-slate-600 bg-slate-50 p-2 rounded border border-slate-100 flex justify-between"><span><strong>D.</strong> ${q.optD}</span> <span class="text-blue-400 font-bold">[${q.scoreD}]</span></div>
+                </div>
+              </div>
+            `;
+          });
+          renderArea.innerHTML = htmlBlock;
+        } else {
+          throw new Error(response.message);
+        }
+      } catch (err) {
+        renderArea.innerHTML = `<div class="p-4 text-center text-red-500 font-bold">Error loading matrix: ${err.message}</div>`;
+      }
+    }
+
+    // --- EDIT QUESTION LOGIC ---
+    function toggleEditQModal() {
+      const modal = document.getElementById('edit-q-modal');
+      if (modal.classList.contains('hidden')) {
+        modal.classList.remove('hidden');
+        void modal.offsetWidth; 
+        modal.classList.remove('opacity-0');
+      } else {
+        modal.classList.add('opacity-0');
+        setTimeout(() => modal.classList.add('hidden'), 300); 
+      }
+    }
+
+    function openEditQModal(index) {
+      const q = currentPreviewData[index];
+      document.getElementById('edit-q-role-label').innerText = `Role: ${currentPreviewRole} | Q-ID: ${q.num}`;
+      document.getElementById('edit-q-row').value = q.rowIndex;
+      document.getElementById('edit-q-text').value = q.text;
+      document.getElementById('edit-q-optA').value = q.optA;
+      document.getElementById('edit-q-scoreA').value = q.scoreA;
+      document.getElementById('edit-q-optB').value = q.optB;
+      document.getElementById('edit-q-scoreB').value = q.scoreB;
+      document.getElementById('edit-q-optC').value = q.optC;
+      document.getElementById('edit-q-scoreC').value = q.scoreC;
+      document.getElementById('edit-q-optD').value = q.optD;
+      document.getElementById('edit-q-scoreD').value = q.scoreD;
+      
+      toggleEditQModal();
+    }
+
+    async function saveQuestionEdit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btn-save-q');
+      const originalHtml = btn.innerHTML;
+      btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Committing...`;
+      btn.disabled = true;
+
+      try {
+        const payload = {
+          role: currentPreviewRole,
+          rowIndex: document.getElementById('edit-q-row').value,
+          text: document.getElementById('edit-q-text').value,
+          optA: document.getElementById('edit-q-optA').value,
+          scoreA: document.getElementById('edit-q-scoreA').value,
+          optB: document.getElementById('edit-q-optB').value,
+          scoreB: document.getElementById('edit-q-scoreB').value,
+          optC: document.getElementById('edit-q-optC').value,
+          scoreC: document.getElementById('edit-q-scoreC').value,
+          optD: document.getElementById('edit-q-optD').value,
+          scoreD: document.getElementById('edit-q-scoreD').value,
+        };
+
+        const response = await server.call('UPDATE_QUESTION', payload);
+        
+        if (response.status === 'success') {
+          toggleEditQModal();
+          toggleModal(response.message);
+          previewAdminAssessment(currentPreviewRole); // Refresh the preview list
+        } else throw new Error(response.message);
+      } catch (err) {
+        toggleModal('SYS ERR: ' + err.message, true);
+      } finally {
+        btn.innerHTML = originalHtml;
+        btn.disabled = false;
+      }
+    }
+
+    // --- TRIAL COMMITMENT EDITING LOGIC ---
+    function toggleEditTrialModal() {
+      const modal = document.getElementById('edit-trial-modal');
+      if (modal.classList.contains('hidden')) { 
+        modal.classList.remove('hidden'); void modal.offsetWidth; modal.classList.remove('opacity-0'); 
+      } else { 
+        modal.classList.add('opacity-0'); setTimeout(() => modal.classList.add('hidden'), 300); 
+      }
+    }
+
+    async function openEditTrialModal(role) {
+      document.getElementById('edit-trial-role-label').innerText = `Role: ${role}`;
+      document.getElementById('edit-trial-role').value = role;
+      
+      document.getElementById('edit-art1').value = "Loading...";
+      document.getElementById('edit-art2').value = "Loading...";
+      document.getElementById('edit-art3').value = "Loading...";
+      
+      toggleEditTrialModal();
+
+      try {
+        const response = await server.call('FETCH_TRIAL_ARTICLE', { role });
+        if (response.status === 'success') {
+          document.getElementById('edit-art1').value = response.payload.art1;
+          document.getElementById('edit-art2').value = response.payload.art2;
+          document.getElementById('edit-art3').value = response.payload.art3;
+        } else throw new Error(response.message);
+      } catch (err) {
+        toggleModal('SYS ERR: ' + err.message, true);
+        toggleEditTrialModal();
+      }
+    }
+
+    async function saveTrialEdit(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btn-save-trial');
+      const originalHtml = btn.innerHTML;
+      btn.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Committing...`;
+      btn.disabled = true;
+
+      try {
+        const payload = {
+          role: document.getElementById('edit-trial-role').value,
+          art1: document.getElementById('edit-art1').value,
+          art2: document.getElementById('edit-art2').value,
+          art3: document.getElementById('edit-art3').value
+        };
+
+        const response = await server.call('UPDATE_TRIAL_ARTICLE', payload);
+        if (response.status === 'success') {
+          toggleEditTrialModal();
+          toggleModal(response.message);
+        } else throw new Error(response.message);
+      } catch (err) {
+        toggleModal('SYS ERR: ' + err.message, true);
+      } finally {
+        btn.innerHTML = originalHtml;
+        btn.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>
