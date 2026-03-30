@@ -256,8 +256,8 @@
       <div class="space-y-6 relative before:absolute before:inset-0 before:left-5 before:h-full before:w-0.5 before:bg-red-200">
         <div class="relative flex items-center gap-4 group"><div class="flex items-center justify-center w-10 h-10 rounded-full border border-red-500 bg-white text-red-600 shadow-sm shrink-0 z-10"><i class="fa-solid fa-file-export text-xs"></i></div><div class="p-4 rounded border border-slate-200 bg-slate-50 flex-grow shadow-sm"><h4 class="font-black tracking-tighter uppercase italic text-red-600 text-sm">01. Submit Form</h4><p class="text-[10px] text-slate-500 mt-1">Data transmission & CV upload.</p></div></div>
         <div class="relative flex items-center gap-4 group"><div class="flex items-center justify-center w-10 h-10 rounded-full border border-slate-300 bg-white text-slate-500 shrink-0 z-10"><i class="fa-solid fa-user-check text-xs"></i></div><div class="p-4 rounded border border-slate-200 bg-white flex-grow"><h4 class="font-black tracking-tighter uppercase italic text-slate-800 text-sm">02. HR Review</h4><p class="text-[10px] text-slate-500 mt-1">Initial protocol screening.</p></div></div>
-        <div class="relative flex items-center gap-4 group"><div class="flex items-center justify-center w-10 h-10 rounded-full border border-slate-300 bg-white text-slate-500 shrink-0 z-10"><i class="fa-solid fa-handshake text-xs"></i></div><div class="p-4 rounded border border-slate-200 bg-white flex-grow"><h4 class="font-black tracking-tighter uppercase italic text-slate-800 text-sm">03. Interview</h4><p class="text-[10px] text-slate-500 mt-1">Face-to-face communication link.</p></div></div>
-        <div class="relative flex items-center gap-4 group"><div class="flex items-center justify-center w-10 h-10 rounded-full border border-slate-300 bg-white text-slate-500 shrink-0 z-10"><i class="fa-solid fa-brain text-xs"></i></div><div class="p-4 rounded border border-slate-200 bg-white flex-grow"><h4 class="font-black tracking-tighter uppercase italic text-slate-800 text-sm">04. Cognitive Assessment</h4><p class="text-[10px] text-slate-500 mt-1">Aptitude & logic evaluation.</p></div></div>
+        <div class="relative flex items-center gap-4 group"><div class="flex items-center justify-center w-10 h-10 rounded-full border border-slate-300 bg-white text-slate-500 shrink-0 z-10"><i class="fa-solid fa-brain text-xs"></i></div><div class="p-4 rounded border border-slate-200 bg-white flex-grow"><h4 class="font-black tracking-tighter uppercase italic text-slate-800 text-sm">03. Cognitive Assessment</h4><p class="text-[10px] text-slate-500 mt-1">Aptitude & logic evaluation.</p></div></div>
+        <div class="relative flex items-center gap-4 group"><div class="flex items-center justify-center w-10 h-10 rounded-full border border-slate-300 bg-white text-slate-500 shrink-0 z-10"><i class="fa-solid fa-handshake text-xs"></i></div><div class="p-4 rounded border border-slate-200 bg-white flex-grow"><h4 class="font-black tracking-tighter uppercase italic text-slate-800 text-sm">04. Interview</h4><p class="text-[10px] text-slate-500 mt-1">Face-to-face communication link.</p></div></div>
         <div class="relative flex items-center gap-4 group"><div class="flex items-center justify-center w-10 h-10 rounded-full border border-slate-300 bg-white text-slate-500 shrink-0 z-10"><i class="fa-solid fa-vial text-xs"></i></div><div class="p-4 rounded border border-slate-200 bg-white flex-grow"><h4 class="font-black tracking-tighter uppercase italic text-slate-800 text-sm">05. Trial Phase</h4><p class="text-[10px] text-slate-500 mt-1">Live environment simulator.</p></div></div>
         <div class="relative flex items-center gap-4 group"><div class="flex items-center justify-center w-10 h-10 rounded-full border border-slate-300 bg-white text-slate-500 shrink-0 z-10"><i class="fa-solid fa-rocket text-xs"></i></div><div class="p-4 rounded border border-slate-200 bg-white flex-grow"><h4 class="font-black tracking-tighter uppercase italic text-slate-800 text-sm">06. Onboarding</h4><p class="text-[10px] text-slate-500 mt-1">System integration & contracts.</p></div></div>
         <div class="relative flex items-center gap-4 group"><div class="flex items-center justify-center w-10 h-10 rounded-full border border-slate-300 bg-white text-slate-500 shrink-0 z-10"><i class="fa-solid fa-power-off text-xs"></i></div><div class="p-4 rounded border border-slate-200 bg-white flex-grow"><h4 class="font-black tracking-tighter uppercase italic text-slate-800 text-sm">07. Active Duty</h4><p class="text-[10px] text-slate-500 mt-1">Fully operational status.</p></div></div>
@@ -624,6 +624,27 @@
     </div>
   </div>
 
+  <div id="detailed-score-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 backdrop-blur-sm hidden transition-opacity duration-300 opacity-0">
+    <div class="bg-white border border-slate-200 p-6 shadow-2xl max-w-4xl w-full rounded relative m-4 max-h-[90vh] flex flex-col">
+      <button onclick="toggleDetailedScoreModal()" class="absolute top-4 right-4 text-slate-400 hover:text-red-600 transition-colors cursor-pointer">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+      <header class="mb-4 shrink-0">
+        <h2 class="font-black tracking-tighter uppercase italic text-xl text-blue-600 drop-shadow-sm">Candidate Matrix Log</h2>
+        <p id="detailed-score-candidate" class="text-[10px] uppercase font-bold tracking-widest text-slate-500 mt-1">ID: ...</p>
+      </header>
+      
+      <div id="detailed-score-grid" class="grid grid-cols-5 md:grid-cols-10 gap-2 overflow-y-auto scrollbar-thin p-2"></div>
+      
+      <div class="mt-6 pt-4 border-t border-slate-100 flex justify-between items-center shrink-0">
+         <div id="detailed-score-total" class="font-black text-2xl text-slate-800"></div>
+         <button onclick="toggleDetailedScoreModal()" class="bg-slate-100 text-slate-600 px-4 py-2 rounded-sm text-[10px] uppercase font-bold tracking-widest hover:bg-slate-200 transition-colors cursor-pointer">Close Window</button>
+      </div>
+    </div>
+  </div>
+
+  
+
   <script>
     // --- API GATE COMMUNICATION (REST API) ---
     // IMPORTANT: Paste your new Google Apps Script Web App URL below
@@ -663,7 +684,8 @@
     let currentCandidateToken = null;
     let pendingAssessmentData = null;
     let testTimerInterval;
-    let allCandidatesData = []; // NEW: Stores all candidates for instant filtering
+    let allCandidatesData = []; 
+    let allScoresData = []; // NEW: Stores all scores locally// NEW: Stores all candidates for instant filtering
 
 
     // --- UI TOGGLES & MODALS ---
@@ -884,7 +906,7 @@
       }
 
       // Map string statuses from Google Sheet to numeric dropdown values
-      const statusMap = { 'NEW': 1, 'HR_REVIEW': 2, 'INTERVIEW': 3, 'COGNITIVE': 4, 'TRIAL': 5, 'ONBOARDING': 6, 'ACTIVE': 7 };
+      const statusMap = { 'NEW': 1, 'HR_REVIEW': 2, 'COGNITIVE': 3, 'INTERVIEW': 4, 'TRIAL': 5, 'ONBOARDING': 6, 'ACTIVE': 7 };
 
       tbody.innerHTML = candidates.map(c => {
         const currentStep = statusMap[c.status] || 1; 
@@ -914,8 +936,8 @@
               <select onchange="updateCandidateStatus('${c.id}', this.value)" class="text-[10px] font-bold uppercase tracking-widest bg-white border border-slate-300 text-slate-700 py-1.5 px-2 rounded-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 cursor-pointer shadow-sm">
                 <option value="1" ${currentStep === 1 ? 'selected' : ''}>01. Submit Form</option>
                 <option value="2" ${currentStep === 2 ? 'selected' : ''}>02. HR Review</option>
-                <option value="3" ${currentStep === 3 ? 'selected' : ''}>03. Interview</option>
-                <option value="4" ${currentStep === 4 ? 'selected' : ''}>04. Cognitive Assessment</option>
+                <option value="3" ${currentStep === 3 ? 'selected' : ''}>03. Cognitive Assessment</option>
+                <option value="4" ${currentStep === 4 ? 'selected' : ''}>04. Interview</option>
                 <option value="5" ${currentStep === 5 ? 'selected' : ''}>05. Trial Phase</option>
                 <option value="6" ${currentStep === 6 ? 'selected' : ''}>06. Onboarding</option>
                 <option value="7" ${currentStep === 7 ? 'selected' : ''}>07. Active Duty</option>
@@ -932,7 +954,7 @@
     // --- DASHBOARD ACTIONS (UPDATE & DELETE) ---
     async function updateCandidateStatus(id, stepValue) {
       // Map numeric step back to backend string
-      const reverseStatusMap = { '1': 'NEW', '2': 'HR_REVIEW', '3': 'INTERVIEW', '4': 'COGNITIVE', '5': 'TRIAL', '6': 'ONBOARDING', '7': 'ACTIVE' };
+      const reverseStatusMap = { '1': 'NEW', '2': 'HR_REVIEW', '3': 'COGNITIVE', '4': 'INTERVIEW', '5': 'TRIAL', '6': 'ONBOARDING', '7': 'ACTIVE' };
       const newStatus = reverseStatusMap[stepValue];
 
       toggleModal('Updating pipeline and transmitting email...');
@@ -1318,7 +1340,8 @@
       try {
         const response = await server.call('FETCH_SCORES');
         if (response.status === 'success') {
-          renderScoresTable(response.payload);
+          allScoresData = response.payload; // Store globally for the modal
+          renderScoresTable(allScoresData);
         } else throw new Error(response.message);
       } catch (err) {
         tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-red-500 font-bold">Error: ${err.message}</td></tr>`;
@@ -1342,18 +1365,19 @@
 
       tbody.innerHTML = scores.map(s => {
         const interpretation = interpretScore(s.score);
+        // UPGRADED: Row is now clickable with hover effect
         return `
-          <tr class="border-b border-slate-100 hover:bg-slate-50 transition-colors">
+          <tr onclick="viewDetailedScore('${s.id}')" class="border-b border-slate-100 hover:bg-blue-50 transition-colors cursor-pointer group" title="Click to view detailed answers">
             <td class="p-4">
-              <div class="font-bold text-sm text-slate-900">${s.name}</div>
+              <div class="font-bold text-sm text-slate-900 group-hover:text-blue-700 transition-colors">${s.name}</div>
               <div class="text-[10px] text-slate-400 mt-1 font-mono">${s.id}</div>
             </td>
             <td class="p-4 text-xs text-slate-600 font-bold">${s.position}</td>
             <td class="p-4 text-center">
-              <span class="text-lg font-black font-mono text-slate-800">${s.score}</span>
+              <span class="text-lg font-black font-mono text-slate-800 group-hover:text-blue-600">${s.score}</span>
             </td>
             <td class="p-4">
-              <div class="inline-block px-3 py-2 border rounded-sm ${interpretation.color} shadow-sm w-full max-w-xs">
+              <div class="inline-block px-3 py-2 border rounded-sm ${interpretation.color} shadow-sm w-full max-w-xs transition-transform group-hover:scale-[1.02]">
                 <div class="font-black tracking-tighter uppercase italic text-xs mb-1 drop-shadow-sm">${interpretation.cat}</div>
                 <div class="text-[10px] uppercase font-bold tracking-widest opacity-80 leading-tight">${interpretation.rec}</div>
               </div>
@@ -1363,6 +1387,40 @@
       }).join('');
     }
 
+    // --- NEW: DETAILED SCORE MODAL LOGIC ---
+    function toggleDetailedScoreModal() {
+      const modal = document.getElementById('detailed-score-modal');
+      if (modal.classList.contains('hidden')) { 
+        modal.classList.remove('hidden'); void modal.offsetWidth; modal.classList.remove('opacity-0'); 
+      } else { 
+        modal.classList.add('opacity-0'); setTimeout(() => modal.classList.add('hidden'), 300); 
+      }
+    }
+
+    function viewDetailedScore(id) {
+      const candidate = allScoresData.find(s => s.id === id);
+      if (!candidate) return;
+
+      document.getElementById('detailed-score-candidate').innerText = `ID: ${candidate.id} | Name: ${candidate.name} | Role: ${candidate.position}`;
+      document.getElementById('detailed-score-total').innerText = `Total Score: ${candidate.score}`;
+
+      const grid = document.getElementById('detailed-score-grid');
+      
+      grid.innerHTML = candidate.answers.map((ans, i) => {
+        const isEmpty = !ans || ans.trim() === '';
+        const displayAns = isEmpty ? 'Ø' : ans; // Show Ø for skipped questions
+        const bgClass = isEmpty ? 'bg-red-50 text-red-400 border-red-200' : 'bg-slate-50 text-blue-700 border-slate-200';
+
+        return `
+          <div class="flex flex-col items-center justify-center p-2 border rounded-sm ${bgClass} shadow-sm">
+            <span class="text-[9px] uppercase font-bold text-slate-400 mb-1">Q${i + 1}</span>
+            <span class="font-black font-mono text-lg">${displayAns}</span>
+          </div>
+        `;
+      }).join('');
+
+      toggleDetailedScoreModal();
+    }
     // --- ADMIN PREVIEW ASSESSMENT LOGIC ---
     let currentPreviewData = []; // Store matrix data globally for editing
     let currentPreviewRole = ''; // Store the role being edited
